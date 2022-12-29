@@ -14,6 +14,36 @@ public class ProductRepositoryTest {
     Smartphone smartphone1 = new Smartphone(3, "Galaxy", 15000, "Samsung");
 
     @Test
+    public void shouldSetId() {
+        Product product = new Product(100, "ключ", 100);
+        product.setId(10);
+        System.out.println(product.id);
+    }
+
+    @Test
+    public void shouldSetName() {
+        Product product = new Product(100, "ключ", 100);
+        product.setName("Тетрадь");
+        System.out.println(product.name);
+    }
+
+    @Test
+    public void shouldSetPrice() {
+        Product product = new Product(100, "ключ", 100);
+        product.setPrice(50);
+        System.out.println(product.price);
+    }
+
+    @Test
+    public void shouldGetPrice() {
+        Product product = new Product(100, "ключ", 100);
+        //return product.getPrice();
+        Assertions.assertEquals(100, product.getPrice());
+
+    }
+
+
+    @Test
     public void shouldSaveProduct() {
         ProductRepository repo = new ProductRepository();
         repo.save(product1);
