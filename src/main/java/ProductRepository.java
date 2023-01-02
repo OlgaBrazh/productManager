@@ -1,15 +1,9 @@
+import java.util.PrimitiveIterator;
+
 //package org.example.ProductManager;
 public class ProductRepository {
     protected Product[] products = new Product[0];
 
-    public void save(Product product) {
-        Product[] tmp = new Product[products.length + 1];
-        for (int i = 0; i < products.length; i++) {
-            tmp[i] = products[i];
-        }
-        tmp[tmp.length - 1] = product;
-        products = tmp;
-    }
 
     public Product[] getProducts() {
 
@@ -20,17 +14,18 @@ public class ProductRepository {
         return products;
     }
 
-    public Product findById (int id){
+    public Product findById(int id) {
         for (Product product : products) {
             if (product.getId() == id) {
                 return product;
             }
-        } return null;
+        }
+        return null;
     }
 
     public void removeById(int id) {
-        Product findId = findById (id);
-        if (findId == null){
+        Product findId = findById(id);
+        if (findId == null) {
             throw new NotFoundException(
                     "Element with id: " + id + " not found"
             );
@@ -45,4 +40,20 @@ public class ProductRepository {
         }
         products = tmp;
     }
-}
+
+
+    public void save(Product product) {
+        Product findId = findById(product.getId());
+        if (findId != null) {
+            throw new AlreadyExistsException(
+                    "Element with id: " + product.getId() + " already exists"
+            );
+        }
+            Product [] tmp = new Product [products.length+1];
+            for (int i = 0; i < products.length; i++) {
+                tmp[i] = products[i];
+            }
+            tmp[tmp.length - 1] = product;
+            products = tmp;
+        }
+    }

@@ -11,7 +11,9 @@ public class ProductRepositoryTest {
     Book book1 = new Book(2, "Алые паруса", 1200, "Грин");
     //Product product2 = new Product (2, "игрушка", 300);
     //Product product3 = new Product (3, "шампунь", 350);
+    Book book2 = new Book (2, "Идиот", 1000, "Достоевский");
     Smartphone smartphone1 = new Smartphone(3, "Galaxy", 15000, "Samsung");
+
 
     @Test
     public void shouldSetId() {
@@ -44,7 +46,7 @@ public class ProductRepositoryTest {
 
 
     @Test
-    public void shouldSaveProduct() {
+    public void shouldSaveProductIfIdNotExists() {
         ProductRepository repo = new ProductRepository();
         repo.save(product1);
         repo.save(book1);
@@ -58,6 +60,21 @@ public class ProductRepositoryTest {
         Assertions.assertArrayEquals(expected, actual);
 
     }
+
+    @Test
+    public void shouldSaveProductIfIdAlreadyExists() {
+        ProductRepository repo = new ProductRepository();
+        repo.save(product1);
+        repo.save(book1);
+        repo.save(smartphone1);
+
+        //repo.save(product3);
+
+        Assertions.assertThrows(AlreadyExistsException.class, () -> {
+            repo.save(book2);
+        });
+    }
+
 
 
     @Test
