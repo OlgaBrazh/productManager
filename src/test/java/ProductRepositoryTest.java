@@ -59,8 +59,23 @@ public class ProductRepositoryTest {
 
     }
 
+
     @Test
-    public void shouldRemoveById() {
+    public void shouldFindById() {
+        ProductRepository repo = new ProductRepository();
+        repo.save(product1);
+        repo.save(book1);
+        repo.save(smartphone1);
+
+        repo.findById(2);
+
+        Product expected = book1;
+        Product actual = repo.findById(2);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldRemoveByLegalId() {
         ProductRepository repo = new ProductRepository();
         repo.save(product1);
         repo.save(book1);
@@ -70,7 +85,18 @@ public class ProductRepositoryTest {
 
         Product[] expected = {product1, smartphone1};
         Product[] actual = repo.getProducts();
+        Assertions.assertArrayEquals(expected, actual);
     }
 
+    @Test
+    public void shouldThrowsMessageRemoveByNotFoundId() {
+        ProductRepository repo = new ProductRepository();
+        repo.save(product1);
+        repo.save(book1);
+        repo.save(smartphone1);
 
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            repo.removeById(7);
+        });
+    }
 }
